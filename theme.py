@@ -103,7 +103,9 @@ CUSTOM_CSS = """
         height: 46px;
         width: auto;
         display: block;
-        filter: drop-shadow(0 0 14px rgba(0,255,240,0.55)) drop-shadow(0 0 28px rgba(255,47,208,0.25));
+        /* niente drop-shadow qui: il file del logo ha uno sfondo/riquadro
+           proprio non trasparente, e il glow lo faceva sembrare "scontornato"
+           con un alone rettangolare dietro. Il neon resta solo su testo/UI. */
     }
     .cy-hero .cy-tag {
         font-family: 'Orbitron', sans-serif;
@@ -385,6 +387,22 @@ CUSTOM_CSS = """
             display: none;
         }
     }
+
+    /* ---------- Nasconde la "chrome" di default di Streamlit ----------
+       Toolbar (menu hamburger, "Deploy", GitHub icon), footer "Made with
+       Streamlit", header colorato in alto, badge di stato/viewer, e i
+       link-ancora (🔗) che compaiono sopra ogni titolo/subheader al hover:
+       tutta roba di piattaforma che stona con l'estetica cyberpunk e non
+       serve all'utente finale dell'app. */
+    #MainMenu { visibility: hidden; }
+    footer { visibility: hidden; }
+    header[data-testid="stHeader"] { background: transparent; }
+    div[data-testid="stToolbar"] { visibility: hidden; height: 0; position: fixed; }
+    div[data-testid="stDecoration"] { visibility: hidden; height: 0; }
+    div[data-testid="stStatusWidget"] { visibility: hidden; height: 0; }
+    a[data-testid="stHeaderActionElements"],
+    [data-testid="stHeaderActionElements"] { display: none; }
+    .stAppDeployButton { display: none; }
 </style>
 """
 
