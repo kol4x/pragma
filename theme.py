@@ -103,9 +103,11 @@ CUSTOM_CSS = """
         height: 46px;
         width: auto;
         display: block;
-        /* niente drop-shadow qui: il file del logo ha uno sfondo/riquadro
-           proprio non trasparente, e il glow lo faceva sembrare "scontornato"
-           con un alone rettangolare dietro. Il neon resta solo su testo/UI. */
+        /* Il file del logo ha uno sfondo nero pieno (non trasparente): con
+           mix-blend-mode 'screen' il nero del PNG diventa trasparente sopra
+           lo sfondo scuro della pagina, eliminando l'effetto "riquadro/alone"
+           dietro la scritta. Nessun drop-shadow: niente glow sul logo. */
+        mix-blend-mode: screen;
     }
     .cy-hero .cy-tag {
         font-family: 'Orbitron', sans-serif;
@@ -396,7 +398,11 @@ CUSTOM_CSS = """
        serve all'utente finale dell'app. */
     #MainMenu { visibility: hidden; }
     footer { visibility: hidden; }
-    header[data-testid="stHeader"] { background: transparent; }
+    header[data-testid="stHeader"] {
+        background: transparent;
+        box-shadow: none;
+        height: 2.2rem;
+    }
     div[data-testid="stToolbar"] { visibility: hidden; height: 0; position: fixed; }
     div[data-testid="stDecoration"] { visibility: hidden; height: 0; }
     div[data-testid="stStatusWidget"] { visibility: hidden; height: 0; }
