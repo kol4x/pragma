@@ -1,10 +1,3 @@
-"""
-PRAGMA FIT — Tema visivo Cyberpunk.
-
-Solo aspetto: nessuna riga qui dentro tocca il motore di tracciamento o di
-calcolo VBT (vedi engine.py). Look: nero quasi assoluto, griglia sottile,
-neon ciano/magenta, glow, scanline leggerissima, tipografia mono per i dati.
-"""
 
 import os
 import base64
@@ -401,14 +394,22 @@ CUSTOM_CSS = """
     header[data-testid="stHeader"] {
         background: transparent;
         box-shadow: none;
-        height: 2.2rem;
     }
-    div[data-testid="stToolbar"] { visibility: hidden; height: 0; position: fixed; }
-    div[data-testid="stDecoration"] { visibility: hidden; height: 0; }
+    /* Nasconde solo le voci non necessarie della toolbar (icona GitHub,
+       "Deploy", indicatore di stato) MA lascia intatto il controllo che
+       apre/chiude la sidebar, che vive nello stesso header. */
     div[data-testid="stStatusWidget"] { visibility: hidden; height: 0; }
+    .stAppDeployButton { display: none; }
+    [data-testid="stToolbarActions"] { display: none; }
     a[data-testid="stHeaderActionElements"],
     [data-testid="stHeaderActionElements"] { display: none; }
-    .stAppDeployButton { display: none; }
+    /* Il bottone che apre/chiude la sidebar (">>" / "<<") resta visibile: */
+    [data-testid="stSidebarCollapsedControl"],
+    [data-testid="collapsedControl"],
+    button[data-testid="stBaseButton-headerNoPadding"] {
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
 </style>
 """
 
@@ -432,8 +433,6 @@ def hero(tag="FIT"):
 
 
 def page_title(title, subtitle=None, accent_word=None):
-    """Titolo di pagina in stile HUD. Se accent_word è passato ed è contenuto
-    in title, quella parola viene evidenziata in ciano."""
     display = title
     if accent_word and accent_word in title:
         display = title.replace(accent_word, f'<span class="accent">{accent_word}</span>')
@@ -450,7 +449,6 @@ def reset_step_counter():
 
 
 def step_header(label: str, sub: str = "", index: str = None):
-    """Eyebrow tipografico per una sezione del flusso (sostituisce st.subheader)."""
     if index is None:
         idx_str = f"{_STEP_COUNTER['n']:02d}"
         _STEP_COUNTER["n"] += 1

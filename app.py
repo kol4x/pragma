@@ -1,8 +1,3 @@
-"""
-PRAGMA FIT — entrypoint. Definisce solo la navigazione multipagina
-(st.navigation/st.Page): tutta la UI e il motore vivono nei rispettivi
-moduli (pages/*.py, engine.py, theme.py).
-"""
 
 import streamlit as st
 import theme
