@@ -27,9 +27,6 @@ st.download_button(
     use_container_width=True,
 )
 
-# ------------------------------------------------------------------
-# DASHBOARD VBT (solo in modalita' "VBT Avanzato")
-# ------------------------------------------------------------------
 if run["vbt_mode"]:
     exercise = run["exercise"]
     peso_kg = run["peso_kg"]
@@ -56,7 +53,6 @@ if run["vbt_mode"]:
         col3.metric("Potenza di picco", f"{metrics['peak_power']:.0f} W")
         col4.metric("Ripetizioni rilevate", f"{metrics['reps_count']}")
 
-        # --- Stima 1RM di oggi (doppio metodo, vedi costanti VBT in engine.py) ---
         clean_reps = [r for r in metrics["reps"] if not r["is_outlier"]]
         candidate_reps = clean_reps if clean_reps else metrics["reps"]
         fastest_rep = max(candidate_reps, key=lambda r: r["mean_v"])
@@ -132,7 +128,6 @@ if run["vbt_mode"]:
             "né un dato clinico validato individualmente."
         )
 
-        # --- Feedback su Velocity Loss ---
         vl_reps = clean_reps if len(clean_reps) >= 2 else metrics["reps"]
 
         theme.micro_header("Consigli automatici")

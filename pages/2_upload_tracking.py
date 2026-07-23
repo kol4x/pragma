@@ -11,9 +11,6 @@ theme.reset_step_counter()
 theme.page_title("Upload // Tracking", accent_word="Tracking",
                   subtitle="CARICA · CALIBRA · ANALIZZA — configura la serie e avvia il tracciamento CSRT")
 
-# ----------------------------------------------------------------------------
-# SIDEBAR - solo aspetto grafico (non blocca il flusso su mobile)
-# ----------------------------------------------------------------------------
 with st.sidebar:
     st.markdown(
         '<div class="cy-step" style="margin-top:0;">'
@@ -31,9 +28,6 @@ with st.sidebar:
 
 LINE_COLOR_BGR = engine.hex_to_bgr(line_color_hex)
 
-# ----------------------------------------------------------------------------
-# 0) SELEZIONE MODALITÀ
-# ----------------------------------------------------------------------------
 theme.step_header("Modalità")
 mode = st.radio(
     "Modalità",
@@ -43,9 +37,6 @@ mode = st.radio(
 )
 vbt_mode = mode.startswith("VBT")
 
-# ----------------------------------------------------------------------------
-# 1) PARAMETRI DELLA SERIE (solo modalità VBT)
-# ----------------------------------------------------------------------------
 exercise = None
 peso_kg = None
 diametro_cm = None
@@ -76,9 +67,6 @@ if vbt_mode:
             help="45 cm è lo standard olimpico. Usato per convertire i pixel in metri.",
         )
 
-# ----------------------------------------------------------------------------
-# 2) UPLOAD VIDEO
-# ----------------------------------------------------------------------------
 theme.step_header("Carica il video")
 uploaded_file = st.file_uploader(
     "Trascina qui il tuo video o caricalo dal rullino",
@@ -111,9 +99,6 @@ if first_frame is None:
     theme.footer()
     st.stop()
 
-# ----------------------------------------------------------------------------
-# 3) SELEZIONE DEL PUNTO DI PARTENZA SUL PRIMO FOTOGRAMMA
-# ----------------------------------------------------------------------------
 theme.step_header("Clicca sul bilanciere")
 if vbt_mode:
     st.caption(
@@ -144,7 +129,6 @@ if selected_point is not None:
     px, py = selected_point
     half = box_size // 2
     x, y, w, h = engine.clamp_bbox(px - half, py - half, box_size, box_size, width, height)
-    # Colore accento ciano neon in BGR (OpenCV usa l'ordine B,G,R)
     accent_bgr = (240, 255, 0)
     cv2.rectangle(preview, (x, y), (x + w, y + h), accent_bgr, max(2, width // 400))
     cv2.circle(preview, (px, py), max(4, width // 250), accent_bgr, -1)
@@ -169,9 +153,6 @@ if selected_point is None:
 else:
     st.caption(f"Punto selezionato — x: {selected_point[0]}px · y: {selected_point[1]}px")
 
-# ----------------------------------------------------------------------------
-# 4) ELABORAZIONE
-# ----------------------------------------------------------------------------
 theme.step_header("Analizza set")
 process_clicked = st.button(
     "Analizza set",
@@ -228,7 +209,6 @@ if process_clicked and selected_point is not None:
     with open(result["output_path"], "rb") as f:
         video_out_bytes = f.read()
 
-    # Salva tutto il necessario in sessione: la pagina Risultati legge da qui.
     run_record = {
         "timestamp": time.time(),
         "vbt_mode": vbt_mode,
