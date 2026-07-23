@@ -383,33 +383,13 @@ CUSTOM_CSS = """
         }
     }
 
-    /* ---------- Nasconde la "chrome" di default di Streamlit ----------
-       Toolbar (menu hamburger, "Deploy", GitHub icon), footer "Made with
-       Streamlit", header colorato in alto, badge di stato/viewer, e i
-       link-ancora (🔗) che compaiono sopra ogni titolo/subheader al hover:
-       tutta roba di piattaforma che stona con l'estetica cyberpunk e non
-       serve all'utente finale dell'app. */
+    /* ---------- Nasconde solo la "chrome" non essenziale di Streamlit ----------
+       Menu hamburger e footer "Made with Streamlit": elementi stabili e
+       documentati. Non tocchiamo header/toolbar per non rischiare di
+       nascondere anche il controllo che apre/chiude la sidebar. */
     #MainMenu { visibility: hidden; }
     footer { visibility: hidden; }
-    header[data-testid="stHeader"] {
-        background: transparent;
-        box-shadow: none;
-    }
-    /* Nasconde solo le voci non necessarie della toolbar (icona GitHub,
-       "Deploy", indicatore di stato) MA lascia intatto il controllo che
-       apre/chiude la sidebar, che vive nello stesso header. */
-    div[data-testid="stStatusWidget"] { visibility: hidden; height: 0; }
     .stAppDeployButton { display: none; }
-    [data-testid="stToolbarActions"] { display: none; }
-    a[data-testid="stHeaderActionElements"],
-    [data-testid="stHeaderActionElements"] { display: none; }
-    /* Il bottone che apre/chiude la sidebar (">>" / "<<") resta visibile: */
-    [data-testid="stSidebarCollapsedControl"],
-    [data-testid="collapsedControl"],
-    button[data-testid="stBaseButton-headerNoPadding"] {
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
 </style>
 """
 
